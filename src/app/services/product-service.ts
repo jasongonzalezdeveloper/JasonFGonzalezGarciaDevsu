@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { catchError, map, Observable, of, shareReplay, throwError } from 'rxjs';
 import { handleHttpError } from './handle-http-error';
-import { ProductResponse } from './product-response';
+import { ProductResponse, ProductResponseWithPagination } from '../models/product-response';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,23 @@ export class ProductService {
         catchError(handleHttpError)
       );
     }
+  }
+
+  getProductsByPage(page: number, quantityPerPage: number, searchTerm: string): Observable<ProductResponseWithPagination> {
+    return this.getProducts().pipe(
+      map(response =>  {
+        const filteredData = response.data.filter(product =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return {
+          totalProducts: filteredData.length,
+          data: filteredData.slice((page - 1) * quantityPerPage, page * quantityPerPage),
+          totalPages: Math.ceil(filteredData.length / quantityPerPage)
+        };
+      }),
+      catchError(handleHttpError)
+    );
   }
 
   getProductById(id: string): Observable<Product> {

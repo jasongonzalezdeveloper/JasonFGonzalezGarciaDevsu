@@ -9,3 +9,15 @@
 body {
   background: var(--background-color);
 }
+
+button,
+select {
+  padding: 0.5rem 2rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.border-secondary {
+  border: 3px solid var(--secondary-color);
+}

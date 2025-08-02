@@ -1,7 +1,7 @@
 <div class="product-list-container">
     <div class="header-product-list">
         <div class="header-product-list_left">
-            <input type="text" placeholder="Search" class="input-search-product-list" (keyup)="searchProducts($event.target.value)"/>
+            <input type="text" placeholder="Search" class="input-search-product-list border-secondary" (keyup)="searchProducts($event.target.value)"/>
         </div>
 
         <div class="header-product-list_right">
@@ -35,10 +35,21 @@
 
         <div class="footer-product-list">
             <div class="footer-product-list_left">
-                {{ (products$ | async)?.length }} Resultados
+                {{ totalProducts }} Resultados
+            </div>
+            <div class="footer-product-list_center">
+               <div class="pagination">
+                    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+                    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+                    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+                </div>
             </div>
             <div class="footer-product-list_right">
-                {{ (products$ | async)?.length }} Resultados
+                <select class="border-secondary" name="quantityPerPage" [(ngModel)]="quantityPerPage" (change)="getProducts()">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
             </div>
         </div>
     </div>

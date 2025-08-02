@@ -50,11 +50,28 @@ img {
 
 .footer-product-list {
   padding: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   .footer-product-list_left {
-    float: left;
+    flex: 0.5;
+    text-align: left;
+  }
+  .footer-product-list_center {
+    flex: 2;
+    text-align: center;
+    span {
+      text-align: center;
+      margin: 0 0.5rem;
+    }
   }
   .footer-product-list_right {
-    float: right;
+    flex: 0.5;
+    text-align: right;
+    select {
+      border: 3px solid var(--secondary-color);
+    }
   }
 }
 
@@ -67,17 +84,12 @@ img {
       width: 100%;
       padding: 0.5rem;
       border-radius: 10px;
-      border: 3px solid var(--secondary-color);
     }
   }
   .header-product-list_right {
     float: right;
     button {
-      padding: 1rem 1rem;
-      border: none;
-      border-radius: 4px;
       background: var(--primary-color);
-      cursor: pointer;
 
       &:hover {
         background: var(--primary-color-hover);
