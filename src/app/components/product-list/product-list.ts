@@ -3,6 +3,7 @@ import { ProductService } from '../../services/product-service';
 import { Product } from '../../models/product';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'product-list',
@@ -18,7 +19,7 @@ export class ProductList {
   products$: Observable<Product[]> = of([]);
   isProductsLoading$ = new BehaviorSubject<boolean>(true);
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit() {
     this.products$ = this.getProducts();
@@ -45,5 +46,9 @@ export class ProductList {
     } else {
       this.products$ = this.getProducts();
     }
+  }
+
+  addProduct():void {
+    this.router.navigate(['/add-product']);
   }
 }

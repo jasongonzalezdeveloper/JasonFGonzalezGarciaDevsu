@@ -1,92 +1,91 @@
 .product-list-container {
-    width: 100%;
-    display: inline-grid;
+  width: 100%;
+  display: inline-grid;
 }
 .card-product-list {
-    background: #ffffff;
-    margin: 2rem 3rem;
-    padding: 2rem;
+  background: #ffffff;
+  margin: 2rem 3rem;
+  padding: 2rem;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow-y: auto;
+  width: 100%;
+  border-collapse: collapse;
+  overflow-y: auto;
 
-    thead {
-        tr {
-            background: #f9fafc;
-            
-            th {
-                font-weight: bold;
-            }
-        }
-    }
-    
+  thead {
     tr {
-        border-bottom: 1px solid #f0f1f5;
+      background: var(--secondary-color);
+
+      th {
+        font-weight: bold;
+      }
     }
-    
-    th, td {
-        padding: 1.2rem 0.8rem;
-        text-align: left;   
-    }
-   
+  }
+
+  tr {
+    border-bottom: 1px solid var(--secondary-color);
+  }
+
+  th,
+  td {
+    padding: 1.2rem 0.8rem;
+    text-align: left;
+  }
 }
 
-
 .text-align-center {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 .description {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 img {
-    width: 100%;
-    height: 2.5rem;
-    object-fit: cover;
+  width: 100%;
+  height: 2.5rem;
+  object-fit: cover;
 }
 
 .footer-product-list {
-    padding: 2rem 0;
-    .footer-product-list_left {
-        float: left;
-    }
-    .footer-product-list_right {
-        float: right;
-    }
+  padding: 2rem 0;
+  .footer-product-list_left {
+    float: left;
+  }
+  .footer-product-list_right {
+    float: right;
+  }
 }
 
-.header-product-list{
-    margin: 0 3rem;
-    margin-top: 2rem;
-    .header-product-list_left {
-        float: left;
-        input{
-            width: 100%;
-            padding: 0.5rem;
-            border-radius: 10px;
-            border: 3px solid #e4e5e7;
-        }
+.header-product-list {
+  margin: 0 3rem;
+  margin-top: 2rem;
+  .header-product-list_left {
+    float: left;
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 10px;
+      border: 3px solid var(--secondary-color);
     }
-    .header-product-list_right {
-        float: right;
-        button {
-            padding: 1rem 1rem;
-            border: none;
-            border-radius: 4px;
-            background: #f5df66;
-            cursor: pointer;
+  }
+  .header-product-list_right {
+    float: right;
+    button {
+      padding: 1rem 1rem;
+      border: none;
+      border-radius: 4px;
+      background: var(--primary-color);
+      cursor: pointer;
 
-            &:hover {
-                background: #e4d05f;
-            }
-        }
+      &:hover {
+        background: var(--primary-color-hover);
+      }
     }
+  }
 }
 
 .no-products {
-    margin: 2rem auto;
+  margin: 2rem auto;
 }
