@@ -1,0 +1,50 @@
+<div class="product-list-container">
+    <div class="header-product-list">
+        <div class="header-product-list_left">
+            <input type="text" placeholder="Search" class="input-search-product-list" (keyup)="searchProducts($event.target.value)"/>
+        </div>
+
+        <div class="header-product-list_right">
+            <button>Agregar</button>
+        </div>
+    </div>
+
+    <div class="card-product-list" *ngIf="isProductsLoading$ | async; else noProducts">
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-align-center">Logo</th>
+                    <th>Nombre del producto</th>
+                    <th>Descripción</th>
+                    <th>Fecha de liberación</th>
+                    <th>Fecha de restricción</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of (products$ | async)">
+                    <td class="text-align-center"><img src="assets/images/visa-signature.webp" alt="{{ product.name }} logo" /></td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>  
+                    <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
+                    <th></th>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-product-list">
+            <div class="footer-product-list_left">
+                {{ (products$ | async)?.length }} Resultados
+            </div>
+            <div class="footer-product-list_right">
+                {{ (products$ | async)?.length }} Resultados
+            </div>
+        </div>
+    </div>
+    <ng-template #noProducts>
+        <div class="no-products">
+            <h2>No hay productos disponibles.</h2>
+        </div>
+    </ng-template>
+</div>
