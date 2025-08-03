@@ -32,6 +32,10 @@ export class ProductList {
     this.getProducts();
   }
 
+  ngOnDestroy() {
+    this.isProductsLoading$.complete();
+  }
+  
   getProducts() {
     this.isProductsLoading$.next(false);
     this.productService.getProductsByPage(this.currentPage, this.quantityPerPage, this.searchTerm).pipe(

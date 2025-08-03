@@ -70,7 +70,7 @@ export class ProductService {
     );
   }
 
-  existProduct(id: string): Observable<boolean> {
+  isProductValid(id: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/verification/${id}`).pipe(
       catchError(handleHttpError)
     );

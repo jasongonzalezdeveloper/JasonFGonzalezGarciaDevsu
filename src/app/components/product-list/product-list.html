@@ -1,7 +1,8 @@
 <div class="product-list-container">
     <div class="header-product-list">
         <div class="header-product-list_left">
-            <input type="text" placeholder="Search" class="input-search-product-list border-secondary" (keyup)="searchProducts($event.target.value)"/>
+            <input type="text" placeholder="Search" class="input-search-product-list border-secondary"
+                (keyup)="searchProducts($event.target.value)" />
         </div>
 
         <div class="header-product-list_right">
@@ -9,7 +10,8 @@
         </div>
     </div>
 
-    <div class="card-product-list" *ngIf="isProductsLoading$ | async; else noProducts">
+    @if (isProductsLoading$ | async) {
+    <div class="card-product-list">
         <table>
             <thead>
                 <tr>
@@ -22,14 +24,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let product of (products$ | async)">
-                    <td class="text-align-center"><img src="assets/images/visa-signature.webp" alt="{{ product.name }} logo" /></td>
+                @for (product of (products$ | async); track product.id) {
+                <tr>
+                    <td class="text-align-center"><img src="assets/images/visa-signature.webp"
+                            alt="{{ product.name }} logo" /></td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.description }}</td>  
+                    <td>{{ product.description }}</td>
                     <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
                     <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
                     <th></th>
                 </tr>
+                }
+
             </tbody>
         </table>
 
@@ -38,14 +44,15 @@
                 {{ totalProducts }} Resultados
             </div>
             <div class="footer-product-list_center">
-               <div class="pagination">
+                <div class="pagination">
                     <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
                     <span>Página {{ currentPage }} de {{ totalPages }}</span>
                     <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
                 </div>
             </div>
             <div class="footer-product-list_right">
-                <select class="border-secondary" name="quantityPerPage" [(ngModel)]="quantityPerPage" (change)="getProducts()">
+                <select class="border-secondary" name="quantityPerPage" [(ngModel)]="quantityPerPage"
+                    (change)="getProducts()">
                     <option value="5" selected>5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -53,9 +60,9 @@
             </div>
         </div>
     </div>
-    <ng-template #noProducts>
-        <div class="no-products">
-            <h2>No hay productos disponibles.</h2>
-        </div>
-    </ng-template>
+    } @else {
+    <div class="no-products">
+        <h2>No hay productos disponibles.</h2>
+    </div>
+    }
 </div>

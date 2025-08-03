@@ -3,8 +3,9 @@
   --primary-color: #f5df66;
   --primary-color-hover: #e4d05f;
   --secondary-color: #e4e5e7;
-  --secondary-color-hover: #d3d4d6;
+  --secondary-color-hover: #c2c2c2;
   --background-color: #f4f6f9;
+  --danger-color: #f74848;
 }
 body {
   background: var(--background-color);
@@ -20,4 +21,19 @@ select {
 
 .border-secondary {
   border: 3px solid var(--secondary-color);
+}
+
+input:focus {
+  border: 3px solid var(--secondary-color-hover);
+  outline: none;
+}
+
+input.ng-invalid.ng-touched {
+  border: 3px solid var(--danger-color) !important;
+}
+
+input.ng-invalid.ng-dirty:focus {
+  border: 3px solid var(--danger-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px #fa0606;
 }
