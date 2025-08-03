@@ -5,14 +5,16 @@ import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DeleteProductModal } from './delete-product-modal/delete-product-modal';
+import { DeleteProductModal } from '../delete-product-modal/delete-product-modal';
+import { NgOptimizedImage } from '@angular/common'
 
 @Component({
   selector: 'product-list',
   imports: [
     CommonModule,
     FormsModule,
-    DeleteProductModal
+    DeleteProductModal,
+    NgOptimizedImage
   ],
   providers: [ProductService],
   templateUrl: './product-list.html',
@@ -37,16 +39,16 @@ export class ProductList {
   constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit() {
-    this.getProducts();
+    this.getProducts(true);
   }
 
   ngOnDestroy() {
     this.isProductsLoading$.complete();
   }
-  
-  getProducts() {
+
+  getProducts(refresh: boolean) {
     this.isProductsLoading$.next(false);
-    this.productService.getProductsByPage(this.currentPage, this.quantityPerPage, this.searchTerm).pipe(
+    this.productService.getProductsByPage(this.currentPage, this.quantityPerPage, this.searchTerm, refresh).pipe(
       map(products => products)
     ).subscribe({
       next: (products) => {
@@ -65,7 +67,7 @@ export class ProductList {
       this.searchTerm = '';
       this.currentPage = 1;
     }
-    this.getProducts();
+    this.getProducts(false);
   }
 
   addProduct():void {
@@ -75,13 +77,13 @@ export class ProductList {
   previousPage(): void {
     if( this.currentPage <= 1) return;
     this.currentPage--;
-    this.getProducts();
+    this.getProducts(false);
   }
 
   nextPage(): void {
     if( this.currentPage >= this.totalPages) return;
     this.currentPage++;
-    this.getProducts();
+    this.getProducts(false);
   }
 
   setDeleteModal(productId: string, productName: string): void {
@@ -89,11 +91,12 @@ export class ProductList {
     this.selectedProductName = productName;
     this.isDeleteModalOpen = true;
   }
-
+  
   closeDeleteModal(): void {
     this.isDeleteModalOpen = false;
     this.selectedProductId = '';
     this.selectedProductName = '';
+    this.getProducts(true);
   }
 
   toggleDropdown(id: string): void {
@@ -102,6 +105,11 @@ export class ProductList {
     } else {
       this.dropdownId = id;
     }
+  }
+
+  editProduct(productId: string): void {
+    this.dropdownId = '';
+    this.router.navigate(['/edit-product', productId]);
   }
 }
 

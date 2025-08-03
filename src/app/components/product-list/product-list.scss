@@ -43,9 +43,10 @@ table {
 }
 
 img {
-  width: 100%;
+  width: 5rem;
   height: 2.5rem;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .footer-product-list {
@@ -133,5 +134,12 @@ img {
         background: var(--secondary-color-hover);
       }
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .card-product-list {
+    margin: 1rem 0;
+    padding: 1rem;
   }
 }

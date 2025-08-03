@@ -1,0 +1,16 @@
+<div class="form-product-container">
+    <div class="form-product-header">
+        <go-back></go-back>
+        <h1>Editar producto</h1>
+    </div>
+    <hr>
+    <div class="form-product-form">
+        @if (!(loadingProduct$ | async)) {
+        <div class="text-align-center">Cargando producto...</div>
+        } @else if (product) {
+        <form-product [product]="product"></form-product>
+        } @else {
+        <div class="text-align-center">No se encontró el producto.</div>
+        }
+    </div>
+</div>

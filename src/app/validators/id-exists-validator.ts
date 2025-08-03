@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ProductService } from '../../../services/product-service';
+import { ProductService } from '../services/product-service';
 import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { catchError, map, Observable, of } from 'rxjs';
 

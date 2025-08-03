@@ -26,16 +26,16 @@
             <tbody>
                 @for (product of (products$ | async); track product.id) {
                 <tr>
-                    <td class="text-align-center"><img src="assets/images/visa-signature.webp"
-                            alt="{{ product.name }} logo" /></td>
+                    <td class="text-align-center"><img ngSrc="{{product.logo}}" class="product-logo"
+                            alt="{{ product.name }} logo" width="100" height="100" /></td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description }}</td>
-                    <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
-                    <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ product.date_release | date:'dd/MM/yyyy':"UTC" }}</td>
+                    <td>{{ product.date_revision | date:'dd/MM/yyyy':"UTC" }}</td>
                     <th class="options">
                         <button class="options-button" (click)="toggleDropdown(product.id)">...</button>
                         <div class="options-dropdown" [class.show]="dropdownId === product.id">
-                            <div>Editar</div>
+                            <div (click)="editProduct(product.id)">Editar</div>
                             <div (click)="setDeleteModal(product.id, product.name)">Eliminar</div>
                         </div>
                     </th>
@@ -58,7 +58,7 @@
             </div>
             <div class="footer-product-list_right">
                 <select class="border-secondary select_quantity" name="quantityPerPage" [(ngModel)]="quantityPerPage"
-                    (change)="getProducts()">
+                    (change)="getProducts(false)">
                     <option value="5" selected>5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>

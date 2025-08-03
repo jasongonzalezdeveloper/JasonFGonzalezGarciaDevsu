@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProductService } from '../../../services/product-service';
+import { ProductService } from '../../services/product-service';
 
 @Component({
   selector: 'delete-product-modal',
@@ -31,8 +31,12 @@ export class DeleteProductModal {
         alert(`Producto ${this.productName} eliminado exitosamente.`);
         this.closeModalEvent.emit();
       },
-      error: () => {
-        alert(`Error al eliminar el producto ${this.productName}.`);
+      error: (error) => {
+        if (error.status === 404) {
+          alert(`Producto ${this.productName} no encontrado.`);
+        } else {
+          alert(`Error al eliminar el producto ${this.productName}.`);
+        }
       }
     });
   }

@@ -1,0 +1,116 @@
+<form [formGroup]="productForm">
+    <div class="form-row">
+        <div class="form-section">
+            <label for="">ID</label>
+            <input class="form-input border-secondary" formControlName="id" type="text" name="id" id="id"
+                idExistsValidator required minlength="3" maxlength="10">
+            @if (productForm.get('id') && productForm.get('id')?.invalid && (productForm.get('id')?.dirty ||
+            productForm.get('id')?.touched)) {
+            <div class="error-message">
+                @if (productForm.get('id')?.hasError('required')) {
+                <span>El ID es requerido.</span>
+                }
+                @if (productForm.get('id')?.hasError('minlength')) {
+                <span>El ID debe tener al menos 3 caracteres.</span>
+                }
+                @if (productForm.get('id')?.hasError('maxlength')) {
+                <span>El ID no puede tener más de 10 caracteres.</span>
+                }
+                @if (productForm.get('id')?.hasError('idExists')) {
+                <span>El ID no es válido!.</span>
+                }
+            </div>
+            }
+        </div>
+        <div class="form-section">
+            <label for="">Nombre</label>
+            <input class="form-input border-secondary" formControlName="name" type="text" name="name" id="name" required
+                minlength="3" maxlength="100">
+            @if (productForm.get('name') && productForm.get('name')?.invalid && (productForm.get('name')?.dirty
+            ||
+            productForm.get('name')?.touched)) {
+            <div class="error-message">
+                @if (productForm.get('name')?.hasError('required')) {
+                <span>El nombre es requerido.</span>
+                }
+                @if (productForm.get('name')?.hasError('minlength')) {
+                <span>El nombre debe tener al menos 3 caracteres.</span>
+                }
+                @if (productForm.get('name')?.hasError('maxlength')) {
+                <span>El nombre no puede tener más de 100 caracteres.</span>
+                }
+            </div>
+            }
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-section">
+            <label for="">Descripción</label>
+            <input class="form-input border-secondary" formControlName="description" type="text" name="description"
+                id="description" required minlength="10" maxlength="200">
+            @if (productForm.get('description') && productForm.get('description')?.invalid &&
+            (productForm.get('description')?.dirty ||
+            productForm.get('description')?.touched)) {
+            <div class="error-message">
+                @if (productForm.get('description')?.hasError('required')) {
+                <span>La descripción es requerida.</span>
+                }
+                @if (productForm.get('description')?.hasError('minlength')) {
+                <span>La descripción debe tener al menos 10 caracteres.</span>
+                }
+                @if (productForm.get('description')?.hasError('maxlength')) {
+                <span>La descripción no puede tener más de 200 caracteres.</span>
+                }
+            </div>
+            }
+        </div>
+        <div class="form-section">
+            <label for="">Logo</label>
+            <input class="form-input border-secondary" formControlName="logo" type="text" name="logo" id="logo"
+                required>
+            @if (productForm.get('logo') && productForm.get('logo')?.invalid && (productForm.get('logo')?.dirty
+            ||
+            productForm.get('logo')?.touched)) {
+            <div class="error-message">
+                @if (productForm.get('logo')?.hasError('required')) {
+                <span>El logo es requerido.</span>
+                }
+            </div>
+            }
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-section">
+            <label for="">Fecha liberación</label>
+            <input class="form-input border-secondary" formControlName="date_release" type="date" name="date_release"
+                id="date_release" dateReleaseValidator required>
+            @if (productForm.get('date_release') && productForm.get('date_release')?.invalid &&
+            (productForm.get('date_release')?.dirty ||
+            productForm.get('date_release')?.touched)) {
+            <div class="error-message">
+                @if (productForm.get('date_release')?.hasError('required')) {
+                <span>La fecha de liberación es requerida.</span>
+                }
+                @if (productForm.get('date_release')?.hasError('dateReleaseInvalid')) {
+                <span>La fecha debe ser igual o mayor a la fecha de hoy.</span>
+                }
+            </div>
+            }
+        </div>
+        <div class="form-section">
+            <label for="">Fecha revisión</label>
+            <input class="form-input border-secondary" formControlName="date_revision" type="date" name="date_revision"
+                id="date_revision">
+            <div class="error-message">
+            </div>
+        </div>
+    </div>
+    <div class="form-row form-footer">
+        <div class="form-footer_left">
+            <button class="btn btn_secondary" type="button" (click)="resetForm()">Reiniciar</button>
+        </div>
+        <div class="form-footer_right">
+            <button class="btn btn_primary" type="button" (click)="onSubmit()">Enviar</button>
+        </div>
+    </div>
+</form>

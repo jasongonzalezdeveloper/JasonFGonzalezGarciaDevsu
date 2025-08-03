@@ -14,8 +14,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<ProductResponse> {
-    if(this.productList.length > 0) {
+  getProducts(refresh: boolean): Observable<ProductResponse> {
+    if(this.productList.length > 0 && !refresh) {
       return of({ data: this.productList });
     } else {
       return this.http.get<ProductResponse>(this.apiUrl).pipe(
@@ -29,8 +29,8 @@ export class ProductService {
     }
   }
 
-  getProductsByPage(page: number, quantityPerPage: number, searchTerm: string): Observable<ProductResponseWithPagination> {
-    return this.getProducts().pipe(
+  getProductsByPage(page: number, quantityPerPage: number, searchTerm: string, refresh: boolean): Observable<ProductResponseWithPagination> {
+    return this.getProducts(refresh).pipe(
       map(response =>  {
         const filteredData = response.data.filter(product =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

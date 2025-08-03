@@ -1,0 +1,45 @@
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-section {
+  flex: 1;
+  margin: 0.5rem 1rem;
+  gap: 1rem;
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+}
+
+.form-footer {
+  justify-content: center;
+  gap: 6rem;
+  margin-top: 2rem;
+}
+
+.error-message {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+  .form-section {
+    margin: 0.5rem 0;
+  }
+  .form-footer {
+    gap: 1rem;
+    align-items: center;
+  }
+}
