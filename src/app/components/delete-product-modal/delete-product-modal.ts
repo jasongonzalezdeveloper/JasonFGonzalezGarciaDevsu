@@ -27,8 +27,8 @@ export class DeleteProductModal {
 
   confirmDelete() {
     this.productService.deleteProduct(this.productId).subscribe({
-      next: () => {
-        alert(`Producto ${this.productName} eliminado exitosamente.`);
+      next: (response: any) => {
+        alert(response.message ?? `Producto ${this.productName} eliminado exitosamente.`);
         this.closeModalEvent.emit();
       },
       error: (error) => {

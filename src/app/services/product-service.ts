@@ -41,8 +41,7 @@ export class ProductService {
           data: filteredData.slice((page - 1) * quantityPerPage, page * quantityPerPage),
           totalPages: Math.ceil(filteredData.length / quantityPerPage)
         };
-      }),
-      catchError(handleHttpError)
+      })
     );
   }
 
@@ -58,8 +57,8 @@ export class ProductService {
     );
   }
 
-  updateProduct(id: string, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product).pipe(
+  updateProduct(product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product).pipe(
       catchError(handleHttpError)
     );
   }

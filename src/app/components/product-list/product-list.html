@@ -2,11 +2,12 @@
     <div class="header-product-list">
         <div class="header-product-list_left">
             <input type="text" placeholder="Search" class="input-search-product-list border-secondary"
-                (keyup)="searchProducts($event.target.value)" />
+                (keyup)="searchProducts($event.target.value)" aria-label="Buscar producto" />
         </div>
 
         <div class="header-product-list_right">
-            <button class="btn btn_primary" (click)="addProduct()">Agregar</button>
+            <button class="btn btn_primary" (click)="addProduct()"
+                aria-label="Boton para agregar producto">Agregar</button>
         </div>
     </div>
 
@@ -51,14 +52,16 @@
             </div>
             <div class="footer-product-list_center">
                 <div class="pagination">
-                    <button class="btn" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+                    <button class="btn" (click)="previousPage()" [disabled]="currentPage === 1"
+                        aria-label="Botón anterior del paginado">Anterior</button>
                     <span>Página {{ currentPage }} de {{ totalPages }}</span>
-                    <button class="btn" (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+                    <button class="btn" (click)="nextPage()" [disabled]="currentPage === totalPages"
+                        aria-label="Botón siguiente del paginado">Siguiente</button>
                 </div>
             </div>
             <div class="footer-product-list_right">
                 <select class="border-secondary select_quantity" name="quantityPerPage" [(ngModel)]="quantityPerPage"
-                    (change)="getProducts(false)">
+                    (change)="getProducts(false)" aria-label="Cantidad de productos por página">
                     <option value="5" selected>5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>

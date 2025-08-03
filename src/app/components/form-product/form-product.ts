@@ -102,25 +102,25 @@ export class FormProduct {
     if(this.productForm.valid) {
       const formData = this.productForm.getRawValue();
       if(this.product) {
-        this.productService.updateProduct(this.product.id, formData).subscribe({
-          next: (response) => {
-            alert('Producto actualizado exitosamente');
+        this.productService.updateProduct(formData).subscribe({
+          next: (response: any) => {
+            alert(response.message ?? 'Producto actualizado exitosamente');
             this.router.navigate(['/products']);
           },
           error: (error) => {
-          alert(error.message);
-        }
-      });
+            alert(error.message);
+          }
+        });
       } else {
         this.productService.createProduct(formData).subscribe({
-        next: (response) => {
-          alert('Producto agregado exitosamente');
-          this.productForm.reset();
-        },
-        error: (error) => {
-          alert(error.message);
-        }
-      });
+          next: (response: any) => {
+            alert(response.message ?? 'Producto agregado exitosamente');
+            this.productForm.reset();
+          },
+          error: (error) => {
+            alert(error.message);
+          }
+        });
       }
 
       

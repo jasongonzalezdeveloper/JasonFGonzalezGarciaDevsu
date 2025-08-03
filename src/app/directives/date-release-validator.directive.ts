@@ -1,5 +1,5 @@
 import { Directive, forwardRef, inject } from '@angular/core';
-import { AbstractControl, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { IdExistsValidator } from '../validators/id-exists-validator';
 import { Observable } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
     },
   ],
 })
-export class DateReleaseValidatorDirective {
+export class DateReleaseValidatorDirective implements AsyncValidator{
   private readonly validator = inject(IdExistsValidator);
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {

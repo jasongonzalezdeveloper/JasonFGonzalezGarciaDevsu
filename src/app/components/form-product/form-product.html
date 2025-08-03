@@ -107,10 +107,12 @@
     </div>
     <div class="form-row form-footer">
         <div class="form-footer_left">
-            <button class="btn btn_secondary" type="button" (click)="resetForm()">Reiniciar</button>
+            <button class="btn btn_secondary" type="button" (click)="resetForm()"
+                aria-label="Botón para reiniciar el formulario">Reiniciar</button>
         </div>
         <div class="form-footer_right">
-            <button class="btn btn_primary" type="button" (click)="onSubmit()">Enviar</button>
+            <button class="btn btn_primary" type="button" (click)="onSubmit()"
+                aria-label="Botón para enviar el formulario">Enviar</button>
         </div>
     </div>
 </form>
