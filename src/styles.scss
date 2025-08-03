@@ -11,8 +11,8 @@ body {
   background: var(--background-color);
 }
 
-button,
-select {
+.btn,
+.select {
   padding: 0.5rem 2rem;
   border: none;
   cursor: pointer;
@@ -36,4 +36,29 @@ input.ng-invalid.ng-dirty:focus {
   border: 3px solid var(--danger-color) !important;
   outline: none;
   box-shadow: 0 0 0 2px #fa0606;
+}
+
+hr {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid var(--secondary-color);
+  width: 100%;
+}
+
+.btn_primary {
+  background: var(--primary-color);
+}
+.btn_primary:hover {
+  background: var(--primary-color-hover);
+}
+
+.btn_secondary {
+  background: var(--secondary-color);
+}
+.btn_secondary:hover {
+  background: var(--secondary-color-hover);
+}
+
+.border-secondary {
+  border: 3px solid var(--secondary-color);
 }

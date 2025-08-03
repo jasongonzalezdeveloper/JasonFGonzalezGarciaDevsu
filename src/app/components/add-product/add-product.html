@@ -1,5 +1,8 @@
 <div class="add-product-container">
     <div class="add-product-header">
+        <div class="back-button">
+            <button class="btn btn_secondary" (click)="goBack()">Volver</button>
+        </div>
         <h1>Formulario de registro</h1>
     </div>
     <hr>
@@ -113,10 +116,10 @@
             </div>
             <div class="form-row form-footer">
                 <div class="form-footer_left">
-                    <button type="button" (click)="resetForm()">Reiniciar</button>
+                    <button class="btn btn_secondary" type="button" (click)="resetForm()">Reiniciar</button>
                 </div>
                 <div class="form-footer_right">
-                    <button type="button" (click)="onSubmit()">Enviar</button>
+                    <button class="btn btn_primary" type="button" (click)="onSubmit()">Enviar</button>
                 </div>
             </div>
         </form>

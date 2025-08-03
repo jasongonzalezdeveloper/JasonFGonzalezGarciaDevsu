@@ -5,12 +5,14 @@ import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DeleteProductModal } from './delete-product-modal/delete-product-modal';
 
 @Component({
   selector: 'product-list',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    DeleteProductModal
   ],
   providers: [ProductService],
   templateUrl: './product-list.html',
@@ -25,6 +27,12 @@ export class ProductList {
   totalPages = 0;
   quantityPerPage = 5;
   totalProducts = 0;
+
+  selectedProductId: string = '';
+  selectedProductName: string = '';
+  isDeleteModalOpen: boolean = false;
+
+  dropdownId = '';
 
   constructor(private productService: ProductService, private router: Router) {}
 
@@ -74,6 +82,26 @@ export class ProductList {
     if( this.currentPage >= this.totalPages) return;
     this.currentPage++;
     this.getProducts();
+  }
+
+  setDeleteModal(productId: string, productName: string): void {
+    this.selectedProductId = productId;
+    this.selectedProductName = productName;
+    this.isDeleteModalOpen = true;
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalOpen = false;
+    this.selectedProductId = '';
+    this.selectedProductName = '';
+  }
+
+  toggleDropdown(id: string): void {
+    if (this.dropdownId === id) {
+      this.dropdownId = '';
+    } else {
+      this.dropdownId = id;
+    }
   }
 }
 

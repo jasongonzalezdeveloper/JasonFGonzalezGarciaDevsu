@@ -3,15 +3,13 @@
   width: 70%;
   text-align: center;
   background: white;
-
-  hr {
-    margin: 1rem 0;
-    border: none;
-    border-top: 1px solid var(--secondary-color);
-  }
 }
 .add-product-header {
   padding-top: 1rem;
+}
+.back-button {
+  text-align: left;
+  margin-left: 3rem;
 }
 .add-product-form {
   padding: 2rem;
@@ -45,17 +43,6 @@
   justify-content: center;
   gap: 6rem;
   margin-top: 2rem;
-
-  .form-footer_left {
-    button {
-      background: var(--secondary-color);
-    }
-  }
-  .form-footer_right {
-    button {
-      background: var(--primary-color);
-    }
-  }
 }
 
 .error-message {

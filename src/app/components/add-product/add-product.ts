@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { dateReleaseValidator } from './validators/date-release-validator';
 import { ProductService } from '../../services/product-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'add-product',
@@ -14,7 +15,7 @@ import { ProductService } from '../../services/product-service';
 export class AddProduct {
   productForm : FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private productService: ProductService) {
+  constructor(private formBuilder: FormBuilder, private productService: ProductService, private router: Router) {
     this.productForm = this.formBuilder.group({
       id: ['', [
         Validators.required,
@@ -53,6 +54,14 @@ export class AddProduct {
    });
   }
 
+  ngOnDestroy() {
+    this.productForm.reset();
+  }
+
+  goBack() {
+    this.router.navigate(['/products']);
+  }
+
   resetForm() {
     this.productForm.reset();
   }
@@ -68,7 +77,7 @@ export class AddProduct {
           this.productForm.reset();
         },
         error: (error) => {
-          alert(error.message || 'Error al agregar el producto. Por favor, inténtelo de nuevo más tarde.');
+          alert(error.message);
         }
       });
     }

@@ -6,7 +6,7 @@
         </div>
 
         <div class="header-product-list_right">
-            <button (click)="addProduct()">Agregar</button>
+            <button class="btn btn_primary" (click)="addProduct()">Agregar</button>
         </div>
     </div>
 
@@ -32,7 +32,13 @@
                     <td>{{ product.description }}</td>
                     <td>{{ product.date_release | date:'dd/MM/yyyy' }}</td>
                     <td>{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
-                    <th></th>
+                    <th class="options">
+                        <button class="options-button" (click)="toggleDropdown(product.id)">...</button>
+                        <div class="options-dropdown" [class.show]="dropdownId === product.id">
+                            <div>Editar</div>
+                            <div (click)="setDeleteModal(product.id, product.name)">Eliminar</div>
+                        </div>
+                    </th>
                 </tr>
                 }
 
@@ -45,13 +51,13 @@
             </div>
             <div class="footer-product-list_center">
                 <div class="pagination">
-                    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+                    <button class="btn" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
                     <span>Página {{ currentPage }} de {{ totalPages }}</span>
-                    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+                    <button class="btn" (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
                 </div>
             </div>
             <div class="footer-product-list_right">
-                <select class="border-secondary" name="quantityPerPage" [(ngModel)]="quantityPerPage"
+                <select class="border-secondary select_quantity" name="quantityPerPage" [(ngModel)]="quantityPerPage"
                     (change)="getProducts()">
                     <option value="5" selected>5</option>
                     <option value="10">10</option>
@@ -65,4 +71,8 @@
         <h2>No hay productos disponibles.</h2>
     </div>
     }
+
+    <delete-product-modal [productId]="selectedProductId" [productName]="selectedProductName"
+        [openModal]="isDeleteModalOpen" (closeModalEvent)="closeDeleteModal()"></delete-product-modal>
+
 </div>

@@ -1,0 +1,18 @@
+@if (openModal) {
+<div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="modal-body">
+            <span>¿Estas seguro de eliminar el producto <span class="product-name">{{productName}}</span>?</span>
+        </div>
+        <hr>
+        <div class="modal-footer">
+            <div>
+                <button class="btn btn_secondary" type="button" (click)="closeModal()">Cancelar</button>
+            </div>
+            <div>
+                <button class="btn btn_primary" type="button" (click)="confirmDelete()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
