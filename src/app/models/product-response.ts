@@ -9,3 +9,8 @@ export interface ProductResponseWithPagination {
    totalPages: number;
    totalProducts: number;
 }
+
+export interface ProductResponseForm {
+   data: Product;
+   message: string;
+}

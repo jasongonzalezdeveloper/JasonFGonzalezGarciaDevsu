@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { catchError, map, Observable, of, shareReplay, throwError } from 'rxjs';
 import { handleHttpError } from './handle-http-error';
-import { ProductResponse, ProductResponseWithPagination } from '../models/product-response';
+import { ProductResponse, ProductResponseForm, ProductResponseWithPagination } from '../models/product-response';
 
 @Injectable({
   providedIn: 'root'
@@ -51,14 +51,14 @@ export class ProductService {
     );
   }
 
-  createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product).pipe(
+  createProduct(product: Product): Observable<ProductResponseForm> {
+    return this.http.post<ProductResponseForm>(this.apiUrl, product).pipe(
       catchError(handleHttpError)
     );
   }
 
-  updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product).pipe(
+  updateProduct(product: Product): Observable<ProductResponseForm> {
+    return this.http.put<ProductResponseForm>(`${this.apiUrl}/${product.id}`, product).pipe(
       catchError(handleHttpError)
     );
   }
