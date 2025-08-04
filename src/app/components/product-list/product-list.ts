@@ -6,17 +6,14 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DeleteProductModal } from '../delete-product-modal/delete-product-modal';
-import { NgOptimizedImage } from '@angular/common'
 
 @Component({
   selector: 'product-list',
   imports: [
     CommonModule,
     FormsModule,
-    DeleteProductModal,
-    NgOptimizedImage
+    DeleteProductModal
   ],
-  providers: [ProductService],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss'
 })
@@ -36,7 +33,7 @@ export class ProductList {
 
   dropdownId = '';
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(private productService: ProductService, private router: Router) { }
 
   ngOnInit() {
     this.getProducts(true);
@@ -52,9 +49,11 @@ export class ProductList {
       map(products => products)
     ).subscribe({
       next: (products) => {
+        if (products.data.length > 0) {
+          this.isProductsLoading$.next(true);
+        }
         this.totalProducts = products.totalProducts;
         this.totalPages = products.totalPages;
-        this.isProductsLoading$.next(true);
         this.products$ = of(products.data);
       }
     });
@@ -70,18 +69,18 @@ export class ProductList {
     this.getProducts(false);
   }
 
-  addProduct():void {
+  addProduct(): void {
     this.router.navigate(['/add-product']);
   }
 
   previousPage(): void {
-    if( this.currentPage <= 1) return;
+    if (this.currentPage <= 1) return;
     this.currentPage--;
     this.getProducts(false);
   }
 
   nextPage(): void {
-    if( this.currentPage >= this.totalPages) return;
+    if (this.currentPage >= this.totalPages) return;
     this.currentPage++;
     this.getProducts(false);
   }
@@ -91,7 +90,7 @@ export class ProductList {
     this.selectedProductName = productName;
     this.isDeleteModalOpen = true;
   }
-  
+
   closeDeleteModal(): void {
     this.isDeleteModalOpen = false;
     this.selectedProductId = '';

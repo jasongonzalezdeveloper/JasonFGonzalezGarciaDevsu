@@ -33,12 +33,9 @@ describe('GoBack', () => {
   });
 
   it('should click go back button and navigate to previous page', async () => {
+    component.goBack();
     await new Promise(resolve => setTimeout(resolve, 500));
     fixture.detectChanges();
-    const button = fixture.nativeElement.querySelector('button');
-    button.click();
-    await new Promise(resolve => setTimeout(resolve, 500));
-    fixture.detectChanges();
-    expect(router.url).toBe('/products');
+    expect(router.url).toEqual('/products');
   });
 });

@@ -27,17 +27,19 @@
             <tbody>
                 @for (product of (products$ | async); track product.id) {
                 <tr>
-                    <td class="text-align-center"><img ngSrc="{{product.logo}}" class="product-logo"
+                    <td class="text-align-center"><img src="{{product.logo}}" class="product-logo"
                             alt="{{ product.name }} logo" width="100" height="100" /></td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description }}</td>
                     <td>{{ product.date_release | date:'dd/MM/yyyy':"UTC" }}</td>
                     <td>{{ product.date_revision | date:'dd/MM/yyyy':"UTC" }}</td>
                     <th class="options">
-                        <button class="options-button" (click)="toggleDropdown(product.id)">...</button>
+                        <button id="dropdown-{{product.id}}" class="options-button"
+                            (click)="toggleDropdown(product.id)">...</button>
                         <div class="options-dropdown" [class.show]="dropdownId === product.id">
-                            <div (click)="editProduct(product.id)">Editar</div>
-                            <div (click)="setDeleteModal(product.id, product.name)">Eliminar</div>
+                            <div id="edit-product-{{product.id}}" (click)="editProduct(product.id)">Editar</div>
+                            <div id="delete-product-{{product.id}}" (click)="setDeleteModal(product.id, product.name)">
+                                Eliminar</div>
                         </div>
                     </th>
                 </tr>

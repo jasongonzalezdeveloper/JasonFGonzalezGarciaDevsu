@@ -17,10 +17,10 @@ export class DeleteProductModal {
   @Input()
   openModal: boolean = false;
 
-  @Output() 
+  @Output()
   closeModalEvent = new EventEmitter<void>();
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
   }
@@ -29,7 +29,7 @@ export class DeleteProductModal {
     this.productService.deleteProduct(this.productId).subscribe({
       next: (response: any) => {
         alert(response.message ?? `Producto ${this.productName} eliminado exitosamente.`);
-        this.closeModalEvent.emit();
+        this.closeModal();
       },
       error: (error) => {
         if (error.status === 404) {

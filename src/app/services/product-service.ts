@@ -10,12 +10,12 @@ import { ProductResponse, ProductResponseForm, ProductResponseWithPagination } f
 })
 export class ProductService {
   private apiUrl = 'http://localhost:3002/bp/products';
-  private productList : Product[] = [];
+  private productList: Product[] = [];
 
   constructor(private http: HttpClient) { }
 
   getProducts(refresh: boolean): Observable<ProductResponse> {
-    if(this.productList.length > 0 && !refresh) {
+    if (this.productList.length > 0 && !refresh) {
       return of({ data: this.productList });
     } else {
       return this.http.get<ProductResponse>(this.apiUrl).pipe(
@@ -31,7 +31,7 @@ export class ProductService {
 
   getProductsByPage(page: number, quantityPerPage: number, searchTerm: string, refresh: boolean): Observable<ProductResponseWithPagination> {
     return this.getProducts(refresh).pipe(
-      map(response =>  {
+      map(response => {
         const filteredData = response.data.filter(product =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           product.description.toLowerCase().includes(searchTerm.toLowerCase())

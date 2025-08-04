@@ -46,11 +46,14 @@ export class EditProduct {
   }
 
   loadProduct() {
+    this.loadingProduct$.next(false);
     this.productService.getProductById(this.productId).subscribe({
       next: (product) => {
-        this.loadingProduct$.next(true);
-        this.product = product;
-        this.changeDetector.detectChanges();
+        if (product.id) {
+          this.loadingProduct$.next(true);
+          this.product = product;
+          this.changeDetector.detectChanges();
+        }
       },
       error: (error) => {
         alert(error.message);

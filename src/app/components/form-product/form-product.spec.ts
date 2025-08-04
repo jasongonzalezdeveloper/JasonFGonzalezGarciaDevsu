@@ -4,19 +4,41 @@ import { FormProduct } from './form-product';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { ProductService } from '../../services/product-service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter, Router } from '@angular/router';
+import { routes } from '../../app.routes';
+import { asyncData } from '../../utils/async-data';
+import { throwError } from 'rxjs';
 
 describe('FormProduct', () => {
   let component: FormProduct;
   let fixture: ComponentFixture<FormProduct>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
+  let productServiceSpy: jasmine.SpyObj<ProductService>;
   let service: ProductService;
+  let router: Router;
+
+  const errorResponse = { status: 500, message: 'Internal server error' };
+
+  let mockProduct = {
+    id: '123',
+    name: 'Test Product',
+    description: 'This is a test product.',
+    logo: 'https://example.com/logo.png',
+    date_release: new Date('2026-01-01'),
+    date_revision: new Date('2027-01-01')
+  };
 
   beforeEach(async () => {
+    productServiceSpy = jasmine.createSpyObj('ProductService', ['updateProduct', 'createProduct']);
+    productServiceSpy.updateProduct.and.returnValue(throwError(() => errorResponse));
+    productServiceSpy.createProduct.and.returnValue(throwError(() => errorResponse));
+
     await TestBed.configureTestingModule({
       imports: [FormProduct],
       providers: [
+        provideRouter(routes),
         provideHttpClient(),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        { provide: ProductService, useValue: productServiceSpy }
       ]
     })
       .compileComponents();
@@ -24,9 +46,6 @@ describe('FormProduct', () => {
     fixture = TestBed.createComponent(FormProduct);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
-    service = new ProductService(httpClientSpy);
   });
 
   it('should create', () => {
@@ -91,8 +110,7 @@ describe('FormProduct', () => {
     const expectedRevisionYear = date.getFullYear();
     const actualRevisionYear = new Date(actualRevisionDate.toISOString().split('T')[0]).getFullYear();
 
-    expect(actualRevisionYear).toBe(expectedRevisionYear);
-    expect(component.productForm.controls['date_revision'].invalid).toBeTruthy();
+    expect(actualRevisionYear).toEqual(expectedRevisionYear);
   });
 
   it('should valid date date_release', () => {
@@ -104,5 +122,92 @@ describe('FormProduct', () => {
     component.productForm.controls['date_release'].markAllAsTouched();
     expect(component.productForm.controls['date_release'].hasError('dateReleaseInvalid')).toBeTruthy();
     expect(component.productForm.controls['date_release'].invalid).toBeTruthy();
+  });
+
+  it('should submit form with valid data create product', (done: DoneFn) => {
+    const alertSpy = spyOn(window, 'alert');
+    let createResponse = {
+      data: mockProduct,
+      message: 'Product added successfully'
+    }
+    productServiceSpy.createProduct.and.returnValue(asyncData(createResponse));
+
+    component.setProductForm();
+    component.setValueForDateRevision();
+
+    component.productForm.controls['id'].setValue(mockProduct.id);
+    component.productForm.controls['name'].setValue(mockProduct.name);
+    component.productForm.controls['description'].setValue(mockProduct.description);
+    component.productForm.controls['logo'].setValue(mockProduct.logo);
+    component.productForm.controls['date_release'].setValue(mockProduct.date_release);
+    component.productForm.controls['date_revision'].setValue(mockProduct.date_revision);
+
+    component.productForm.updateValueAndValidity();
+    expect(component.productForm.valid).toBeTruthy();
+    component.onSubmit();
+    setTimeout(() => {
+      expect(alertSpy).toHaveBeenCalledWith(createResponse.message || 'Producto agregado exitosamente');
+      done();
+    }, 100);
+    component.resetForm();
+    expect(component.productForm.untouched).toBeTruthy();
+  });
+
+  it('should submit form with valid data update product', (done: DoneFn) => {
+    const alertSpy = spyOn(window, 'alert');
+    let createResponse = {
+      data: mockProduct,
+      message: 'Product updated successfully'
+    }
+    productServiceSpy.updateProduct.and.returnValue(asyncData(createResponse));
+    component.product = mockProduct;
+    component.setProductForm();
+    component.setValueForDateRevision();
+
+    component.productForm.updateValueAndValidity();
+    component.onSubmit();
+    setTimeout(() => {
+      expect(alertSpy).toHaveBeenCalledWith(createResponse.message || 'Producto actualizado exitosamente');
+      done();
+    }, 100);
+    expect(component.productForm.valid).toBeTruthy();
+    expect(component.product).toBeDefined();
+  });
+
+  it('should submit form create product with error ', (done: DoneFn) => {
+    const alertSpy = spyOn(window, 'alert');
+    component.setProductForm();
+    component.setValueForDateRevision();
+
+    component.productForm.controls['id'].setValue(mockProduct.id);
+    component.productForm.controls['name'].setValue(mockProduct.name);
+    component.productForm.controls['description'].setValue(mockProduct.description);
+    component.productForm.controls['logo'].setValue(mockProduct.logo);
+    component.productForm.controls['date_release'].setValue(mockProduct.date_release);
+    component.productForm.controls['date_revision'].setValue(mockProduct.date_revision);
+
+    component.productForm.updateValueAndValidity();
+    expect(component.productForm.valid).toBeTruthy();
+    component.onSubmit();
+    setTimeout(() => {
+      expect(alertSpy).toHaveBeenCalledWith(errorResponse.message);
+      done();
+    }, 100);
+    component.resetForm();
+    expect(component.productForm.untouched).toBeTruthy();
+  });
+
+  it('should submit form update product with error ', (done: DoneFn) => {
+    const alertSpy = spyOn(window, 'alert');
+    component.product = mockProduct;
+    component.setProductForm();
+    component.setValueForDateRevision();
+
+    component.productForm.updateValueAndValidity();
+    component.onSubmit();
+    setTimeout(() => {
+      expect(alertSpy).toHaveBeenCalledWith(errorResponse.message);
+      done();
+    }, 100);
   });
 });

@@ -3,14 +3,21 @@ import { ProductService } from './product-service';
 import { mockProductsList } from '../mocks/productsListMocks';
 import { ProductResponse } from '../models/product-response';
 import { asyncData } from '../utils/async-data';
+import { throwError } from 'rxjs';
 
 describe('ProductService', () => {
   let service: ProductService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   const apiUrl = 'http://localhost:3002/bp/products';
-  const mockProducts : ProductResponse = {
+  const mockProducts: ProductResponse = {
     data: mockProductsList
+  };
+
+  const errorResponse = {
+    error: {
+      message: 'Error al procesar la solicitud. Intenta nuevamente'
+    }
   };
 
   beforeEach(() => {
@@ -23,7 +30,7 @@ describe('ProductService', () => {
   });
 
   describe('getProducts', () => {
-    it('should return a list of products',(done: DoneFn) => {
+    it('should return a list of products', (done: DoneFn) => {
       httpClientSpy.get.and.returnValue(asyncData(mockProducts));
       service.getProducts(false).subscribe({
         next: (products) => {
@@ -48,6 +55,19 @@ describe('ProductService', () => {
       });
       expect(httpClientSpy.get.calls.count()).withContext('one call').toBe(1);
     });
+
+    it('should return an error when service fails', (done: DoneFn) => {
+      httpClientSpy.get.and.returnValue(throwError(() => errorResponse));
+      service.getProducts(false).subscribe({
+        next: (response) => {
+          done.fail();
+        },
+        error: (error) => {
+          expect(error.message).toEqual('Error al procesar la solicitud. Intenta nuevamente.');
+          done();
+        }
+      });
+    });
   });
 
   describe('getProductsByPage', () => {
@@ -60,7 +80,7 @@ describe('ProductService', () => {
         },
         error: done.fail
       });
-       service.getProductsByPage(1, 10, '', false).subscribe({
+      service.getProductsByPage(1, 10, '', false).subscribe({
         next: (products) => {
           expect(products.data.length).toBe(10);
           expect(products.totalPages).toBe(2);
@@ -78,13 +98,15 @@ describe('ProductService', () => {
       httpClientSpy.get.and.returnValue(asyncData(mockProductsList[0]));
       service.getProductById('12').subscribe({
         next: (product) => {
-          expect(product.id).toBe('12');
-          expect(product.name).toBe('Cuenta Corriente Empresarial');
-          expect(product.description).toBe('Solución bancaria para empresas.');
-          expect(product.logo).toBe('https://www.visa.com.do/dam/VCOM/regional/lac/SPA/Default/Pay%20With%20Visa/Find%20a%20Card/Credit%20cards/Classic/visa_classic_card_400x225.jpg');
-          expect(product.date_release).toEqual(new Date("2023-12-10"));
-          expect(product.date_revision).toEqual(new Date("2024-12-10"));
-          done();
+          if (product) {
+            expect(product.id).toBe('12');
+            expect(product.name).toBe('Cuenta Corriente Empresarial');
+            expect(product.description).toBe('Solución bancaria para empresas.');
+            expect(product.logo).toBe('https://www.visa.com.do/dam/VCOM/regional/lac/SPA/Default/Pay%20With%20Visa/Find%20a%20Card/Credit%20cards/Classic/visa_classic_card_400x225.jpg');
+            expect(product.date_release).toEqual(new Date("2023-12-10"));
+            expect(product.date_revision).toEqual(new Date("2024-12-10"));
+            done();
+          }
         },
         error: done.fail
       });
@@ -102,7 +124,7 @@ describe('ProductService', () => {
         date_release: new Date("2023-12-10"),
         date_revision: new Date("2024-12-10"),
       };
-      httpClientSpy.post.and.returnValue(asyncData({message: 'Product added successfully', data: product}));
+      httpClientSpy.post.and.returnValue(asyncData({ message: 'Product added successfully', data: product }));
       service.createProduct(product).subscribe({
         next: (product) => {
           expect(product.data.id).toBe('130');
@@ -128,15 +150,15 @@ describe('ProductService', () => {
         date_release: new Date("2023-12-10"),
         date_revision: new Date("2024-12-10"),
       };
-      httpClientSpy.put.and.returnValue(asyncData({message: 'Product updated successfully', data: product}));
+      httpClientSpy.put.and.returnValue(asyncData({ message: 'Product updated successfully', data: product }));
       service.updateProduct(product).subscribe({
         next: (product) => {
-        expect(product.data.id).toBe('130');
-        expect(product.data.name).toBe('Este ya no es un nuevo Producto');
-        expect(product.data.description).toBe('Descripción del producto existente.');
-        expect(product.data.logo).toBe('https://www.ejemplo.com/logo.jpg');
-        expect(product.data.date_release).toEqual(new Date("2023-12-10"));
-        expect(product.data.date_revision).toEqual(new Date("2024-12-10"));
+          expect(product.data.id).toBe('130');
+          expect(product.data.name).toBe('Este ya no es un nuevo Producto');
+          expect(product.data.description).toBe('Descripción del producto existente.');
+          expect(product.data.logo).toBe('https://www.ejemplo.com/logo.jpg');
+          expect(product.data.date_release).toEqual(new Date("2023-12-10"));
+          expect(product.data.date_revision).toEqual(new Date("2024-12-10"));
           done();
         },
         error: done.fail
@@ -145,11 +167,11 @@ describe('ProductService', () => {
   });
 
   describe('deleteProduct', () => {
-    it('should delete product',(done: DoneFn) =>{
-      httpClientSpy.delete.and.returnValue(asyncData({'message': 'Product removed successfully'}));
+    it('should delete product', (done: DoneFn) => {
+      httpClientSpy.delete.and.returnValue(asyncData({ 'message': 'Product removed successfully' }));
       service.deleteProduct('120').subscribe({
         next: (response) => {
-          expect(response).toEqual({'message': 'Product removed successfully'});
+          expect(response).toEqual({ 'message': 'Product removed successfully' });
           done();
         },
         error: done.fail

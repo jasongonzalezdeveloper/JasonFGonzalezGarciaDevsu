@@ -7,17 +7,17 @@ import { Product } from '../../models/product';
 
 @Component({
   selector: 'form-product',
-  imports: [  
+  imports: [
     ReactiveFormsModule
   ],
   templateUrl: './form-product.html',
   styleUrl: './form-product.scss'
 })
 export class FormProduct {
-  @Input() 
+  @Input()
   product: Product | null = null;
 
-  productForm : FormGroup;
+  productForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private productService: ProductService, private router: Router) {
     this.productForm = this.formBuilder.group({
@@ -31,7 +31,7 @@ export class FormProduct {
         Validators.minLength(5),
         Validators.maxLength(100)
       ]],
-      description: ['',[
+      description: ['', [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(200)
@@ -41,7 +41,7 @@ export class FormProduct {
         Validators.required,
         dateReleaseValidator
       ]],
-      date_revision: [{value: '', disabled: true}, [
+      date_revision: [{ value: '', disabled: true }, [
         Validators.required
       ]]
     });
@@ -54,10 +54,10 @@ export class FormProduct {
 
   setValueForDateRevision() {
     this.productForm.get('date_release')?.valueChanges.subscribe(value => {
-    if (value) {
-      this.productForm.get('date_revision')?.setValue(this.setDate(value));
-    }
-   });
+      if (value) {
+        this.productForm.get('date_revision')?.setValue(this.setDate(value));
+      }
+    });
   }
 
   setDate(date: string) {
@@ -67,7 +67,7 @@ export class FormProduct {
   }
 
   setProductForm() {
-    if(this.product) {
+    if (this.product) {
       this.productForm.patchValue({
         id: this.product.id,
         name: this.product.name,
@@ -84,24 +84,20 @@ export class FormProduct {
     this.productForm.reset();
   }
 
-  goBack() {
-    this.router.navigate(['/products']);
-  }
-
   resetForm() {
-    if(this.product) {
+    if (this.product) {
       this.setProductForm();
     } else {
       this.productForm.reset();
     }
   }
-  
+
   onSubmit() {
     this.productForm.markAllAsTouched();
     this.productForm.updateValueAndValidity();
-    if(this.productForm.valid) {
+    if (this.productForm.valid) {
       const formData = this.productForm.getRawValue();
-      if(this.product) {
+      if (this.product) {
         this.productService.updateProduct(formData).subscribe({
           next: (response: any) => {
             alert(response.message ?? 'Producto actualizado exitosamente');
@@ -122,8 +118,6 @@ export class FormProduct {
           }
         });
       }
-
-      
     }
   }
 }

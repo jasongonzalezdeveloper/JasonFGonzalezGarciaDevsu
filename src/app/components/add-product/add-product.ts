@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { dateReleaseValidator } from '../../validators/date-release-validator';
-import { ProductService } from '../../services/product-service';
 import { Router } from '@angular/router';
 import { FormProduct } from '../form-product/form-product';
 import { GoBack } from '../../ui/go-back/go-back';
