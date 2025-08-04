@@ -49,9 +49,7 @@ export class ProductList {
       map(products => products)
     ).subscribe({
       next: (products) => {
-        if (products.data.length > 0) {
-          this.isProductsLoading$.next(true);
-        }
+        this.isProductsLoading$.next(true);
         this.totalProducts = products.totalProducts;
         this.totalPages = products.totalPages;
         this.products$ = of(products.data);

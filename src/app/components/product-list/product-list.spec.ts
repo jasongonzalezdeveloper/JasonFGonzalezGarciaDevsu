@@ -69,7 +69,7 @@ describe('ProductList', () => {
     productServiceSpy.getProductsByPage.and.returnValue(of(mockProductsListWithNoResults));
     component.getProducts(true);
     component.isProductsLoading$.subscribe(isLoading => {
-      expect(isLoading).toBe(false);
+      expect(isLoading).toBeTruthy();
     });
   });
 
