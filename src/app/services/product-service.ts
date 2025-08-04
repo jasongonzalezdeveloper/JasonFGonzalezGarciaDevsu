@@ -4,12 +4,13 @@ import { Product } from '../models/product';
 import { catchError, map, Observable, of, shareReplay, throwError } from 'rxjs';
 import { handleHttpError } from './handle-http-error';
 import { ProductResponse, ProductResponseForm, ProductResponseWithPagination } from '../models/product-response';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:3002/bp/products';
+  private apiUrl = `${environment.apiUrl}/bp/products`;
   private productList: Product[] = [];
 
   constructor(private http: HttpClient) { }

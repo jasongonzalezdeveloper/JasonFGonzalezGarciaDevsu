@@ -91,28 +91,6 @@
               "src/styles.scss"
             ]
           }
-        },
-        "test:report": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "codeCoverage": true,
-            "reporters": ["progress", "coverage"],
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss"
-            ]
-          }
         }
       }
     }

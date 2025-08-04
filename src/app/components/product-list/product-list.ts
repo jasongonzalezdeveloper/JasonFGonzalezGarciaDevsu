@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ProductService } from '../../services/product-service';
 import { Product } from '../../models/product';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DeleteProductModal } from '../delete-product-modal/delete-product-modal';
@@ -12,10 +12,12 @@ import { DeleteProductModal } from '../delete-product-modal/delete-product-modal
   imports: [
     CommonModule,
     FormsModule,
-    DeleteProductModal
+    DeleteProductModal,
+    // NgOptimizedImage
   ],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.scss'
+  styleUrl: './product-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductList {
 

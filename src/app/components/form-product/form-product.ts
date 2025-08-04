@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product-service';
@@ -11,7 +11,8 @@ import { Product } from '../../models/product';
     ReactiveFormsModule
   ],
   templateUrl: './form-product.html',
-  styleUrl: './form-product.scss'
+  styleUrl: './form-product.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormProduct {
   @Input()
